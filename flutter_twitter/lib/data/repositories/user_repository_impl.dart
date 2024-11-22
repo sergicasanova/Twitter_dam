@@ -13,9 +13,11 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<String, User>> login(String username, String password) async {
+    final prefs = sl<SharedPreferences>();
     try {
       final response = await remoteDataSource.login(username, password);
       final user = UserModel.fromJson(response);
+      prefs.setString('user_id', user.id);
       return Right(user);
     } catch (e) {
       return Left('Error al hacer login: $e');
@@ -26,7 +28,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<String, User>> getUserInfo(String userId) async {
     try {
       final response = await remoteDataSource.getUserInfo(userId);
-      final user = UserModel.fromJson(response['user']);
+      final user = UserModel.fromJson(response);
       return Right(user);
     } catch (e) {
       return Left('Error obteniendo información del usuario: $e');
@@ -39,7 +41,7 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final response =
           await remoteDataSource.updateUser(userId, username, avatar);
-      final user = UserModel.fromJson(response['user']);
+      final user = UserModel.fromJson(response);
       return Right(user);
     } catch (e) {
       return Left('Error actualizando la información del usuario: $e');
@@ -70,6 +72,26 @@ class UserRepositoryImpl implements UserRepository {
       return Right(users);
     } catch (e) {
       return Left('Error obteniendo información de los usuarios: $e');
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    final prefs = sl<SharedPreferences>();
+    await prefs.remove('user_id');
+  }
+
+  @override
+  Future<Either<String, User>> getUser() async {
+    try {
+      final prefs = sl<SharedPreferences>();
+      final userId = prefs.getString('user_id');
+      final response = await remoteDataSource.getUserInfo(userId!);
+      final user = UserModel.fromJson(response);
+
+      return Right(user);
+    } catch (e) {
+      return Left('Error obteniendo información del usuario: $e');
     }
   }
 }

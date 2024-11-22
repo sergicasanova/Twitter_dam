@@ -12,4 +12,8 @@ abstract class UserRepository {
   Future<Either<Exception, bool>> isLoggedIn();
 
   Future<Either<String, List<User>>> getAllUsers();
+
+  Future<void> logout();
+
+  Future<Either<String, User>> getUser();
 }

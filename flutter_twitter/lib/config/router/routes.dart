@@ -1,22 +1,33 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_twitter/presentation/blocs/login/login_bloc.dart';
+import 'package:flutter_twitter/domain/repositories/user_repository.dart';
+import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
+import 'package:flutter_twitter/presentation/screens/LoginScreen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_twitter/injection.dart' as inj;
 
-final GoRoute appRouter = GoRoute(
-    initialLocation: '/login',
-    routes: [
-      GoRoute(
-          path: '/login',
-          builder: (context, state) {
-            return const LoginScreen();
-          }),
-    ],
-    redirect: (context, state) async {
-      final loginState = context.read<LoginBloc>().state;
-      if (loginState.user == null) {
-        return '/login';
+final GoRouter appRouter = GoRouter(
+  initialLocation: '/home',
+  routes: [
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => BlocProvider(
+        create: (context) => inj.sl<AuthBloc>(),
+        child: const LoginScreen(),
+      ),
+    ),
+    // GoRoute(
+    //   path: '/home',
+    //   builder: (context, state) => const MainScreen(),
+    // ),
+  ],
+  redirect: (context, state) async {
+    final isLoggedIn = await inj.sl<UserRepository>().isLoggedIn();
+    return isLoggedIn.fold((_) => '/login', (loggedIn) {
+      if (!loggedIn && !state.matchedLocation.contains("/login")) {
+        return "/login";
       } else {
-        return null;
+        return state.matchedLocation;
       }
     });
+  },
+);

@@ -9,15 +9,16 @@ import 'package:flutter_twitter/domain/repositories/user_repository.dart';
 // import 'package:flutter_twitter/domain/usecases/follow_user_usecase.dart';
 // import 'package:flutter_twitter/domain/usecases/get_followuserstweets_usecase.dart';
 // import 'package:flutter_twitter/domain/usecases/get_tweets_usecase.dart';
-// import 'package:flutter_twitter/domain/usecases/get_user_info_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/get_user_info_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/get_user_usecase.dart';
 // import 'package:flutter_twitter/domain/usecases/like_tweet_usecase.dart';
 import 'package:flutter_twitter/domain/usecases/login_usecase.dart';
-import 'package:flutter_twitter/presentation/blocs/login/login_bloc.dart';
+import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
 // import 'package:flutter_twitter/domain/usecases/search_users_usecase.dart';
 // import 'package:flutter_twitter/domain/usecases/update_tweet_usecase.dart';
-// import 'package:flutter_twitter/domain/usecases/update_user_info_usecase.dart';
-// import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
-// import 'package:flutter_twitter/presentation/blocs/tweet/tweet_bloc.dart';
+import 'package:flutter_twitter/domain/usecases/update_user_info_usecase.dart';
+import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
+//import 'package:flutter_twitter/presentation/blocs/tweet/tweet_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,8 +42,8 @@ void setupDependencies() async {
 
   // Use Cases
   sl.registerLazySingleton(() => LoginUseCase(sl()));
-  // sl.registerLazySingleton(() => GetUserInfoUseCase(sl()));
-  // sl.registerLazySingleton(() => UpdateUserInfoUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserInfoUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateUserInfoUseCase(sl()));
   // sl.registerLazySingleton(() => GetTweetsUseCase(sl()));
   // sl.registerLazySingleton(() => CreateTweetUseCase(sl()));
   // sl.registerLazySingleton(() => DeleteTweetUseCase(sl()));
@@ -51,13 +52,15 @@ void setupDependencies() async {
   // sl.registerLazySingleton(() => GetFollowUsersTweetsUseCase(sl()));
   // sl.registerLazySingleton(() => SearchUsersUsecase(sl()));
   // sl.registerLazySingleton(() => FollowUserUsecase(sl()));
+  sl.registerLazySingleton(() => GetUserUseCase(sl()));
 
   // Blocs
-  sl.registerFactory(() => LoginBloc(
-        loginUseCase: sl(),
-        getUserInfoUseCase: sl(),
-        updateUserInfoUseCase: sl(),
-      ));
+  sl.registerFactory(() => AuthBloc(
+      loginUseCase: sl(),
+      getUserInfoUseCase: sl(),
+      updateUserInfoUseCase: sl(),
+      userRepository: sl(),
+      getUserUseCase: sl()));
 
   // sl.registerFactory(() => TweetBloc(
   //     getTweetsUseCase: sl(),

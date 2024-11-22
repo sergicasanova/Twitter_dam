@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_twitter/config/router/routes.dart';
-import 'package:flutter_twitter/presentation/blocs/login/login_bloc.dart';
+import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
 // import 'package:flutter_twitter/presentation/blocs/tweet/tweet_bloc.dart';
 import 'injection.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => sl<LoginBloc>(),
+          create: (_) => sl<AuthBloc>(),
         ),
         // BlocProvider(
         //   create: (_) => sl<TweetBloc>(),
