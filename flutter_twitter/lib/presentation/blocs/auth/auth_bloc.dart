@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_twitter/domain/repositories/user_repository.dart';
-import 'package:flutter_twitter/domain/usecases/get_user_info_usecase.dart';
-import 'package:flutter_twitter/domain/usecases/get_user_usecase.dart';
-import 'package:flutter_twitter/domain/usecases/login_usecase.dart';
-import 'package:flutter_twitter/domain/usecases/update_user_info_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/login/get_user_info_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/login/get_user_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/login/login_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/login/update_user_info_usecase.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_event.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_state.dart';
 

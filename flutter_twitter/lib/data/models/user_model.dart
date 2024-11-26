@@ -5,7 +5,7 @@ class UserModel extends User {
     required super.id,
     required super.username,
     required super.following,
-    super.avatar,
+    required super.avatar,
     // required super.password,
   });
 

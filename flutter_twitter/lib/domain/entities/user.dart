@@ -2,7 +2,7 @@ class User {
   final String id;
   final String username;
   final List<String> following;
-  final String? avatar;
+  final String avatar;
   // final String password;
 
   User({

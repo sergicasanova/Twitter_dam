@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_twitter/config/router/routes.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
-// import 'package:flutter_twitter/presentation/blocs/tweet/tweet_bloc.dart';
+import 'package:flutter_twitter/presentation/blocs/tweet/tweet_bloc.dart';
 import 'injection.dart';
 
 void main() async {
@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => sl<AuthBloc>(),
         ),
-        // BlocProvider(
-        //   create: (_) => sl<TweetBloc>(),
-        // ),
+        BlocProvider(
+          create: (_) => sl<TweetBloc>(),
+        ),
       ],
       child: MaterialApp.router(
         routerConfig: appRouter,
