@@ -17,6 +17,8 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final response = await remoteDataSource.login(username, password);
       final user = UserModel.fromJson(response);
+      print(
+          'Datos del usuario: id=${user.id}, username=${user.username}, avatar=${user.avatar}');
       prefs.setString('user_id', user.id);
       return Right(user);
     } catch (e) {

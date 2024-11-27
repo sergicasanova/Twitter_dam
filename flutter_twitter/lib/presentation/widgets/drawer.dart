@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
-// import 'package:flutter_twitter/presentation/functions/show_dialogs_functions.dart';
+import 'package:flutter_twitter/presentation/blocs/auth/auth_event.dart';
+import 'package:flutter_twitter/presentation/funtion/show_dialog.dart';
+import 'package:go_router/go_router.dart';
 
 class MenuLateral extends StatelessWidget {
   const MenuLateral({super.key});
@@ -51,7 +53,8 @@ class MenuLateral extends StatelessWidget {
                   leading: const Icon(Icons.app_settings_alt),
                   title: const Text('Ajustes de Usuario'),
                   onTap: () async {
-                    // await mostrarDialogoUsuario(context);
+                    await mostrarSettingsUsuario(context);
+                    // ignore: use_build_context_synchronously
                     Navigator.pop(context);
                   },
                 ),
@@ -65,15 +68,24 @@ class MenuLateral extends StatelessWidget {
               children: [
                 Text(
                   'Cerrar Sesión',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
                 Icon(
                   Icons.exit_to_app,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ],
             ),
-            onTap: () {},
+            onTap: () async {
+              final resultado = await mostrarLogOut(context);
+              if (!context.mounted) return;
+              if (resultado == 'Aceptar') {
+                context.read<AuthBloc>().add(LogoutEvent());
+                if (!context.mounted) return;
+                context.go('/login');
+              }
+              Navigator.pop(context);
+            },
           ),
         ],
       ),

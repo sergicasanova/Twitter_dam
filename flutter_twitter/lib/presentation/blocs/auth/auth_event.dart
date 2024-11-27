@@ -36,3 +36,5 @@ class LoginUseCaseEvent extends AuthEvent {
 }
 
 class GetUserCaseEvent extends AuthEvent {}
+
+class LogoutEvent extends AuthEvent {}

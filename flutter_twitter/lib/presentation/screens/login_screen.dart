@@ -76,18 +76,16 @@ class _LoginScreenState extends State<LoginScreen> {
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if (state.user != null) {
-                    if (state.errorMessage.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text(
-                                'Login Successful ${state.user!.username}')),
-                      );
-                      context.go('/home');
-                    } else if (state.errorMessage.isNotEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.errorMessage)),
-                      );
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('Login Successful ${state.user!.username}')),
+                    );
+                    context.go('/home');
+                  } else if (state.errorMessage.isNotEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.errorMessage)),
+                    );
                   }
                 },
                 builder: (context, state) {
