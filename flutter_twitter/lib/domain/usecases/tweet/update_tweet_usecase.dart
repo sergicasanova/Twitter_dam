@@ -7,7 +7,7 @@ class UpdateTweetUseCase {
   UpdateTweetUseCase(this.repository);
 
   Future<Either<String, void>> call(
-      String userId, String? content, String? image) {
-    return repository.updateTweet(userId, content, image);
+      String tweetId, String? content, String? image) {
+    return repository.updateTweet(tweetId, content, image);
   }
 }

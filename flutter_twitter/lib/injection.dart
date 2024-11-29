@@ -4,6 +4,8 @@ import 'package:flutter_twitter/data/repositories/tweet_repository_impl.dart';
 import 'package:flutter_twitter/data/repositories/user_repository_impl.dart';
 import 'package:flutter_twitter/domain/repositories/tweet_repository.dart';
 import 'package:flutter_twitter/domain/repositories/user_repository.dart';
+import 'package:flutter_twitter/domain/usecases/login/follow_user_usecase.dart';
+import 'package:flutter_twitter/domain/usecases/login/get_all_users_usecase.dart';
 import 'package:flutter_twitter/domain/usecases/login/logout_usecase.dart';
 import 'package:flutter_twitter/domain/usecases/tweet/create_tweet_usecase.dart';
 import 'package:flutter_twitter/domain/usecases/tweet/delete_tweet_usecase.dart';
@@ -52,6 +54,8 @@ void setupDependencies() async {
   // sl.registerLazySingleton(() => SearchUsersUsecase(sl()));
   sl.registerLazySingleton(() => GetUserUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUserCase(sl()));
+  sl.registerLazySingleton(() => GetAllUsersUseCase(sl()));
+  sl.registerLazySingleton(() => FollowUserUseCase(sl()));
 
   // Blocs
   sl.registerFactory(() => AuthBloc(
@@ -60,7 +64,9 @@ void setupDependencies() async {
       updateUserInfoUseCase: sl(),
       userRepository: sl(),
       getUserUseCase: sl(),
-      logoutUserCase: sl()));
+      logoutUserCase: sl(),
+      getAllUsersUseCase: sl(),
+      followUserUseCase: sl()));
 
   sl.registerFactory(() => TweetBloc(
         getTweetsUseCase: sl(),
@@ -69,7 +75,6 @@ void setupDependencies() async {
         likeTweetUseCase: sl(),
         updateTweetUseCase: sl(),
         getFollowUsersTweetUseCase: sl(),
-        // followUserUseCase: sl(),
         // searchUsersUsecase: sl()
       ));
 }

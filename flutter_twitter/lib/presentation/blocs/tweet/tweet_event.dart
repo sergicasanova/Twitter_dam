@@ -9,13 +9,18 @@ class GetTweetsUseCaseEvent extends TweetEvent {}
 
 class CreateTweetUseCaseEvent extends TweetEvent {
   final String userId;
+  final String avatar;
   final String content;
   final String? image;
 
-  CreateTweetUseCaseEvent(this.userId, this.content, this.image);
+  CreateTweetUseCaseEvent(
+      {required this.userId,
+      required this.avatar,
+      required this.content,
+      this.image});
 
   @override
-  List<Object?> get props => [userId, content, image];
+  List<Object?> get props => [userId, avatar, content, image];
 }
 
 class DeleteTweetUseCaseEvent extends TweetEvent {
@@ -31,21 +36,24 @@ class LikeTweetUseCaseEvent extends TweetEvent {
   final String tweetId;
   final String userId;
 
-  LikeTweetUseCaseEvent(this.tweetId, this.userId);
+  LikeTweetUseCaseEvent({
+    required this.tweetId,
+    required this.userId,
+  });
 
   @override
   List<Object?> get props => [tweetId, userId];
 }
 
 class UpdateTweetUseCaseEvent extends TweetEvent {
-  final String userId;
+  final String tweetId;
   final String? content;
   final String? image;
 
-  UpdateTweetUseCaseEvent(this.userId, this.content, this.image);
+  UpdateTweetUseCaseEvent({required this.tweetId, this.content, this.image});
 
   @override
-  List<Object?> get props => [userId, content, image];
+  List<Object?> get props => [tweetId, content, image];
 }
 
 class GetFollowUsersTweetsUseCaseEvent extends TweetEvent {

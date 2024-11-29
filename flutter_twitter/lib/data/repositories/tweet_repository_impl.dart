@@ -23,9 +23,9 @@ class TweetRepositoryImpl implements TweetRepository {
 
   @override
   Future<Either<String, void>> createTweet(
-      String userId, String content, String? image) async {
+      String userId, String avatar, String content, String? image) async {
     try {
-      await remoteDataSource.createTweet(userId, content, image);
+      await remoteDataSource.createTweet(userId, avatar, content, image);
       return const Right(null);
     } catch (e) {
       return Left('Fallo al crear el tweet: $e');
@@ -71,17 +71,6 @@ class TweetRepositoryImpl implements TweetRepository {
       final tweets =
           response.map<Tweet>((json) => TweetModel.fromJson(json)).toList();
       return Right(tweets);
-    } catch (e) {
-      return Left('Fallo al obtener los tweets: $e');
-    }
-  }
-
-  @override
-  Future<Either<String, bool>> followUser(
-      String userToFollow, String userId) async {
-    try {
-      final response = await remoteDataSource.followUser(userToFollow, userId);
-      return Right(response);
     } catch (e) {
       return Left('Fallo al obtener los tweets: $e');
     }

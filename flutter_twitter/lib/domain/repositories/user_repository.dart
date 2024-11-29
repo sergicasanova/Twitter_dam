@@ -16,4 +16,6 @@ abstract class UserRepository {
   Future<void> logout();
 
   Future<Either<String, User>> getUser();
+
+  Future<Either<String, bool>> followUser(String userToFollow, String userId);
 }

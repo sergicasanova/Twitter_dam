@@ -96,4 +96,15 @@ class UserRepositoryImpl implements UserRepository {
       return Left('Error obteniendo información del usuario: $e');
     }
   }
+
+  @override
+  Future<Either<String, bool>> followUser(
+      String userToFollow, String userId) async {
+    try {
+      final response = await remoteDataSource.followUser(userToFollow, userId);
+      return Right(response);
+    } catch (e) {
+      return Left('Fallo al obtener los tweets: $e');
+    }
+  }
 }

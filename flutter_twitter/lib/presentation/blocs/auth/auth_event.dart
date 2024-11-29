@@ -38,3 +38,27 @@ class LoginUseCaseEvent extends AuthEvent {
 class GetUserCaseEvent extends AuthEvent {}
 
 class LogoutEvent extends AuthEvent {}
+
+class GetAllUsersEvent extends AuthEvent {}
+
+class FilterUsersEvent extends AuthEvent {
+  final String filter;
+
+  FilterUsersEvent(this.filter);
+
+  @override
+  List<Object?> get props => [filter];
+}
+
+class FollowUserEvent extends AuthEvent {
+  final String userToFollowId;
+  final String currentUserId;
+
+  FollowUserEvent({
+    required this.userToFollowId,
+    required this.currentUserId,
+  });
+
+  @override
+  List<Object?> get props => [userToFollowId, currentUserId];
+}

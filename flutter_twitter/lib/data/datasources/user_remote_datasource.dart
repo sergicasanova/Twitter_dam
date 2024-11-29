@@ -64,4 +64,22 @@ class UserRemoteDatasource {
           'Fallo al obtener la información de los usuarios: ${response.body}');
     }
   }
+
+  Future<bool> followUser(String userToFollow, String userId) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/users/$userToFollow/update'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'userId': userId}),
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse['success'] == true) {
+        return true;
+      }
+      return false;
+    } else {
+      throw Exception('Fallo al seguir a un usuario: ${response.body}');
+    }
+  }
 }

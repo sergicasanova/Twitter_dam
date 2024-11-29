@@ -7,7 +7,7 @@ class CreateTweetUseCase {
   CreateTweetUseCase(this.repository);
 
   Future<Either<String, void>> call(
-      String userId, String content, String? image) {
-    return repository.createTweet(userId, content, image);
+      String userId, String avatar, String content, String? image) {
+    return repository.createTweet(userId, avatar, content, image);
   }
 }

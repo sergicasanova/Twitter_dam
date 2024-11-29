@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_twitter/domain/entities/tweet.dart';
 import 'package:flutter_twitter/domain/usecases/tweet/create_tweet_usecase.dart';
 import 'package:flutter_twitter/domain/usecases/tweet/delete_tweet_usecase.dart';
 import 'package:flutter_twitter/domain/usecases/tweet/get_followuserstweets_usecase.dart';
@@ -49,8 +50,8 @@ class TweetBloc extends Bloc<TweetEvent, TweetState> {
     Emitter<TweetState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
-    final result =
-        await createTweetUseCase(event.userId, event.content, event.image);
+    final result = await createTweetUseCase(
+        event.userId, event.avatar, event.content, event.image);
     result.fold(
       (error) => emit(state.copyWith(isLoading: false, errorMessage: error)),
       (tweets) {
@@ -80,12 +81,34 @@ class TweetBloc extends Bloc<TweetEvent, TweetState> {
     Emitter<TweetState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
+
     final result = await likeTweetUseCase(event.tweetId, event.userId);
     result.fold(
       (error) => emit(state.copyWith(isLoading: false, errorMessage: error)),
-      (tweets) {
-        emit(state.copyWith(isLoading: false));
-        _onGetTweetsUseCaseEvent;
+      (_) {
+        final updatedTweets = state.tweets.map((tweet) {
+          if (tweet.id == event.tweetId) {
+            final updatedLikes = List<String>.from(tweet.likes);
+            if (updatedLikes.contains(event.userId)) {
+              updatedLikes.remove(event.userId);
+            } else {
+              updatedLikes.add(event.userId);
+            }
+
+            return Tweet(
+              id: tweet.id,
+              userId: tweet.userId,
+              content: tweet.content,
+              createdAt: tweet.createdAt,
+              likes: updatedLikes,
+              image: tweet.image,
+              userAvatar: tweet.userAvatar,
+            );
+          }
+          return tweet;
+        }).toList();
+
+        emit(state.copyWith(isLoading: false, tweets: updatedTweets));
       },
     );
   }
@@ -96,7 +119,7 @@ class TweetBloc extends Bloc<TweetEvent, TweetState> {
   ) async {
     emit(state.copyWith(isLoading: true));
     final result =
-        await updateTweetUseCase(event.userId, event.content, event.image);
+        await updateTweetUseCase(event.tweetId, event.content, event.image);
     result.fold(
       (error) => emit(state.copyWith(isLoading: false, errorMessage: error)),
       (tweets) {
