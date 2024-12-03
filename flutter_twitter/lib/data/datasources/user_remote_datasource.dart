@@ -67,9 +67,9 @@ class UserRemoteDatasource {
 
   Future<bool> followUser(String userToFollow, String userId) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl/users/$userToFollow/update'),
+      Uri.parse('$_baseUrl/users/$userToFollow/follow'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'userId': userId}),
+      body: json.encode({'followerId': userId}),
     );
 
     if (response.statusCode == 200) {

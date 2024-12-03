@@ -28,7 +28,7 @@ class TweetRepositoryImpl implements TweetRepository {
       await remoteDataSource.createTweet(userId, avatar, content, image);
       return const Right(null);
     } catch (e) {
-      return Left('Fallo al crear el tweet: $e');
+      return Left('Fallo al crear el tweet2: $e');
     }
   }
 

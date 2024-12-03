@@ -4,6 +4,7 @@ import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
 import 'package:flutter_twitter/presentation/blocs/tweet/tweet_bloc.dart';
 import 'package:flutter_twitter/presentation/blocs/tweet/tweet_event.dart';
 import 'package:flutter_twitter/domain/entities/tweet.dart';
+import 'package:flutter_twitter/domain/entities/user.dart';
 import 'package:flutter_twitter/presentation/screens/create_screen.dart';
 
 class TweetsContainer extends StatelessWidget {
@@ -11,14 +12,26 @@ class TweetsContainer extends StatelessWidget {
 
   const TweetsContainer({Key? key, required this.tweets}) : super(key: key);
 
+  String _getUsername(List<User> users, String userId) {
+    for (var user in users) {
+      if (user.id == userId) {
+        return user.username;
+      }
+    }
+    return 'Usuario desconocido';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentUserId = context.read<AuthBloc>();
+    final authState = context.watch<AuthBloc>().state;
+    final currentUserId = authState.user?.id ?? '';
+    final allUsers = authState.allUsers;
 
     return ListView.builder(
       itemCount: tweets.length,
       itemBuilder: (context, index) {
         final tweet = tweets[index];
+        final username = _getUsername(allUsers, tweet.userId);
 
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -41,7 +54,7 @@ class TweetsContainer extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          tweet.userId,
+                          username,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
@@ -71,7 +84,7 @@ class TweetsContainer extends StatelessWidget {
                             BlocProvider.of<TweetBloc>(context).add(
                               LikeTweetUseCaseEvent(
                                 tweetId: tweet.id,
-                                userId: currentUserId.state.user!.id,
+                                userId: currentUserId,
                               ),
                             );
                           },
@@ -86,7 +99,7 @@ class TweetsContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              if (tweet.userId == currentUserId.state.user!.id)
+              if (tweet.userId == currentUserId)
                 Positioned(
                   top: 8,
                   right: 8,

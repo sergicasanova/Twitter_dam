@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_bloc.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_event.dart';
 import 'package:flutter_twitter/presentation/blocs/auth/auth_state.dart';
-import 'package:flutter_twitter/domain/entities/user.dart';
 
 class UserListDialog extends StatelessWidget {
   const UserListDialog({super.key});

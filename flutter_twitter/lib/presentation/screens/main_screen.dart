@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     context.read<TweetBloc>().add(GetTweetsUseCaseEvent());
+    context.read<AuthBloc>().add(GetAllUsersEvent());
   }
 
   @override

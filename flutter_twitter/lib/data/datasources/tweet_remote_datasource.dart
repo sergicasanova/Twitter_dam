@@ -25,10 +25,15 @@ class TweetRemoteDataSource {
     final response = await http.post(
       Uri.parse('$_baseUrl/tweets'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'userId': userId, 'content': content, 'image': image}),
+      body: json.encode({
+        'userId': userId,
+        // 'userAvatar': avatar,
+        'content': content,
+        'image': image
+      }),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 201) {
       throw Exception('Failed al crear el tweet: ${response.body}');
     }
   }
