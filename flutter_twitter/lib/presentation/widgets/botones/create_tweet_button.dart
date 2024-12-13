@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_twitter/presentation/screens/create_screen.dart';
 
 class CreateTweetButton extends StatelessWidget {
-  const CreateTweetButton({Key? key}) : super(key: key);
+  const CreateTweetButton({super.key});
 
   @override
   Widget build(BuildContext context) {

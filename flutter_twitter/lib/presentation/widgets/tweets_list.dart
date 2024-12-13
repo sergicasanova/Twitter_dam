@@ -10,7 +10,7 @@ import 'package:flutter_twitter/presentation/screens/create_screen.dart';
 class TweetsContainer extends StatelessWidget {
   final List<Tweet> tweets;
 
-  const TweetsContainer({Key? key, required this.tweets}) : super(key: key);
+  const TweetsContainer({super.key, required this.tweets});
 
   String _getUsername(List<User> users, String userId) {
     for (var user in users) {
@@ -25,13 +25,16 @@ class TweetsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final authState = context.watch<AuthBloc>().state;
     final currentUserId = authState.user?.id ?? '';
-    final allUsers = authState.allUsers;
+
+    final filteredTweets = tweets.where((tweet) {
+      return authState.user!.following.contains(tweet.userId);
+    }).toList();
 
     return ListView.builder(
-      itemCount: tweets.length,
+      itemCount: filteredTweets.length,
       itemBuilder: (context, index) {
-        final tweet = tweets[index];
-        final username = _getUsername(allUsers, tweet.userId);
+        final tweet = filteredTweets[index];
+        final username = _getUsername(authState.allUsers, tweet.userId);
 
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

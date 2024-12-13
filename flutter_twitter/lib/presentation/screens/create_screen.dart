@@ -8,7 +8,7 @@ import 'package:flutter_twitter/presentation/blocs/tweet/tweet_event.dart';
 class CreateTweetScreen extends StatefulWidget {
   final Tweet? tweet;
 
-  const CreateTweetScreen({Key? key, this.tweet}) : super(key: key);
+  const CreateTweetScreen({super.key, this.tweet});
 
   @override
   State<CreateTweetScreen> createState() => _CreateTweetScreenState();
